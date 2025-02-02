@@ -3,84 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AllergyScanner - Home</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <title>AllergyScanner - Your Personalized Allergy Detector</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            background-image: url('https://i.pinimg.com/736x/89/96/f9/8996f9dfaa408b580acca914c8630cf2.jpg');
+            background-size: cover;
+            background-position: center;
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 30px;
+            background: rgba(0, 0, 0, 0.6);
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
         }
         .hero {
-            background: linear-gradient(to right, #4facfe, #00f2fe);
-            color: white;
             text-align: center;
-            padding: 80px 20px;
+            padding: 100px 20px;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+        .hero p {
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
+        .hero .cta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .hero .cta button {
+            background: #ff9800;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 5px;
         }
         .features {
             text-align: center;
             padding: 50px 20px;
         }
+        .feature-images {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .feature-images img {
+            width: 200px;
+            height: auto;
+            border-radius: 10px;
+        }
         .footer {
-            background: #222;
-            color: white;
             text-align: center;
-            padding: 10px 0;
-            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.6);
         }
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="#">AllergyScanner</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                    <li class="nav-item"><a class="btn btn-primary" href="login.html">Login</a></li>
-                    <li class="nav-item"><a class="btn btn-outline-primary ms-2" href="signup.html">Sign Up</a></li>
-                </ul>
-            </div>
+    <nav class="navbar">
+        <div><a href="front.html">Home</a></div>
+        <div>
+            <a href="#features">Features</a>
+            <a href="contact.html">Contact</a>
+            <a href="login.html">Login/Register</a>
         </div>
     </nav>
     
-    <!-- Hero Section -->
-    <header class="hero">
-        <h1>Scan. Detect. Stay Safe.</h1>
-        <p>AllergyScanner helps you quickly identify allergens in products by scanning barcodes.</p>
-        <a href="signup.html" class="btn btn-light btn-lg">Get Started</a>
-    </header>
-    
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <div class="container">
-            <h2>How It Works</h2>
-            <div class="row mt-4">
-                <div class="col-md-4">
-                    <h4>📷 Scan Product</h4>
-                    <p>Use your phone’s camera to scan barcodes.</p>
-                </div>
-                <div class="col-md-4">
-                    <h4>📜 Extract Ingredients</h4>
-                    <p>We analyze the product details instantly.</p>
-                </div>
-                <div class="col-md-4">
-                    <h4>⚠️ Detect Allergens</h4>
-                    <p>Compare ingredients with your allergy profile.</p>
-                </div>
-            </div>
+    <section class="hero">
+        <h1>Welcome to AllergyScanner</h1>
+        <p>Your trusted companion for detecting allergens in food products.</p>
+        <div class="cta">
+            <button onclick="location.href='login.html'">Get Started</button>
+            <button onclick="location.href='contact.html'">Learn More</button>
         </div>
     </section>
     
-    <!-- Footer -->
+    <section class="features" id="features">
+        <h2>Why Choose AllergyScanner?</h2>
+        <p>Scan barcodes, check ingredients, and stay safe from allergens.</p>
+        <div class="feature-images">
+            <img src="your-image1.jpg" alt="Barcode Scanning Feature">
+            <img src="your-image2.jpg" alt="Allergy Detection Feature">
+            <img src="your-image3.jpg" alt="User Profile Feature">
+        </div>
+    </section>
+    
     <footer class="footer">
         <p>&copy; 2025 AllergyScanner. All rights reserved.</p>
     </footer>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
