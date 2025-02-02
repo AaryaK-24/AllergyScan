@@ -1,0 +1,56 @@
+/* General Body Styling */
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Navigation Bar Styling */
+  .navbar {
+    padding: 1rem;
+  }
+  
+  .navbar-brand {
+    font-weight: bold;
+    font-size: 1.8rem;
+  }
+  
+  .navbar .btn {
+    font-size: 1rem;
+    margin-left: 10px;
+  }
+  
+  /* Hero Section Styling */
+  .hero {
+    background-color: #f8f9fa;
+    padding: 80px 0;
+  }
+  
+  .hero h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+  }
+  
+  .hero .lead {
+    font-size: 1.25rem;
+  }
+  
+  .hero .btn {
+    font-size: 1.2rem;
+    padding: 10px 25px;
+  }
+  
+  /* Content Section Styling */
+  .container h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .container ul {
+    font-size: 1.1rem;
+  }
+  
+  footer {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    font-size: 1rem;
+  }
+  
