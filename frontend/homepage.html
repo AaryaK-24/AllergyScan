@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllergyScanner - Home</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .hero {
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+        .features {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        .footer {
+            background: #222;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">AllergyScanner</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item"><a class="btn btn-primary" href="login.html">Login</a></li>
+                    <li class="nav-item"><a class="btn btn-outline-primary ms-2" href="signup.html">Sign Up</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <header class="hero">
+        <h1>Scan. Detect. Stay Safe.</h1>
+        <p>AllergyScanner helps you quickly identify allergens in products by scanning barcodes.</p>
+        <a href="signup.html" class="btn btn-light btn-lg">Get Started</a>
+    </header>
+    
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2>How It Works</h2>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <h4>📷 Scan Product</h4>
+                    <p>Use your phone’s camera to scan barcodes.</p>
+                </div>
+                <div class="col-md-4">
+                    <h4>📜 Extract Ingredients</h4>
+                    <p>We analyze the product details instantly.</p>
+                </div>
+                <div class="col-md-4">
+                    <h4>⚠️ Detect Allergens</h4>
+                    <p>Compare ingredients with your allergy profile.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 AllergyScanner. All rights reserved.</p>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
