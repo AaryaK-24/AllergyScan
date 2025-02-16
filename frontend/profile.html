@@ -3,56 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Allergy Scanner - Create Profile</title>
+    <title>Allergy Scanner - Profile</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <style>
+        /* Custom background for navbar */
+        .navbar {
+            background-image: url('https://i.pinimg.com/736x/89/96/f9/8996f9dfaa408b580acca914c8630cf2.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
 </head>
 <body>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="index.html">Allergy Scanner</a>
+            <a class="navbar-brand" href="homepage.html">Allergy Scanner</a> <!-- Home link updated -->
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="profile.html">Create Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="homepage.html">Home</a></li> <!-- Home link updated -->
+                    <li class="nav-item"><a class="nav-link active" href="profile.html">Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="allergies.html">Allergy List</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Profile Form -->
+    <!-- Profile Content -->
     <div class="container mt-5">
-        <h2>Create Your Profile</h2>
-        <form id="profile-form">
-            <div class="mb-3">
-                <label for="username" class="form-label">Your Name</label>
-                <input type="text" class="form-control" id="username" placeholder="Enter your name" required>
-            </div>
+        <h2>Profile of <span id="profileName"></span></h2>
+        <p>Manage your allergic ingredients here.</p>
+
+        <!-- Form to Add Allergies -->
+        <form id="allergy-form">
             <div class="mb-3">
                 <label for="allergy" class="form-label">Allergic Ingredients</label>
-                <input type="text" class="form-control" id="allergy" placeholder="Enter ingredient (e.g., peanuts)" required>
+                <input type="text" class="form-control" id="allergy" placeholder="Enter an ingredient (e.g., peanuts)">
             </div>
-            <button type="button" class="btn btn-success" onclick="saveAllergy()">Save & View Allergies</button>
+            <button type="button" class="btn btn-success" onclick="saveAllergy()">Save Allergy</button>
         </form>
+
+        <!-- Allergy List -->
+        <h3 class="mt-4">Your Allergies</h3>
+        <ul class="list-group" id="allergy-list"></ul>
     </div>
 
     <script>
-        function saveAllergy() {
-            let username = document.getElementById('username').value;
-            let allergy = document.getElementById('allergy').value;
-            
-            if (username && allergy) {
-                localStorage.setItem("username", username);
-                let allergies = JSON.parse(localStorage.getItem("allergies")) || [];
-                allergies.push(allergy);
-                localStorage.setItem("allergies", JSON.stringify(allergies));
-                
-                window.location.href = "allergies.html"; // Redirect to allergy list page
+        // Display the name from local storage
+        window.onload = function() {
+            let username = localStorage.getItem("currentUser");
+            if (username) {
+                document.getElementById('profileName').textContent = username;
             } else {
-                alert("Please fill in all fields.");
+                window.location.href = "login.html"; // Redirect if no name is found
             }
+
+            loadAllergies();
+        };
+
+        // Save allergy for the user
+        function saveAllergy() {
+            let allergy = document.getElementById('allergy').value;
+            let username = localStorage.getItem("currentUser");
+
+            if (allergy && username) {
+                let users = JSON.parse(localStorage.getItem("users")) || [];
+                let user = users.find(user => user.name === username);
+
+                if (user) {
+                    user.allergies.push(allergy);
+                } else {
+                    users.push({ name: username, allergies: [allergy] });
+                }
+
+                localStorage.setItem("users", JSON.stringify(users));
+                loadAllergies();
+            } else {
+                alert("Please enter an allergy.");
+            }
+        }
+
+        // Load and display allergies
+        function loadAllergies() {
+            let username = localStorage.getItem("currentUser");
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            let user = users.find(user => user.name === username);
+            let allergyList = document.getElementById("allergy-list");
+
+            allergyList.innerHTML = "";
+
+            if (user && user.allergies.length > 0) {
+                user.allergies.forEach(allergy => {
+                    let listItem = document.createElement("li");
+                    listItem.className = "list-group-item d-flex justify-content-between align-items-center";
+                    listItem.innerHTML = allergy + `<button class="btn btn-danger btn-sm" onclick="removeAllergy('${allergy}')">Remove</button>`;
+                    allergyList.appendChild(listItem);
+                });
+            }
+        }
+
+        // Remove an allergy
+        function removeAllergy(allergy) {
+            let username = localStorage.getItem("currentUser");
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            let user = users.find(user => user.name === username);
+
+            if (user) {
+                user.allergies = user.allergies.filter(a => a !== allergy);
+                if (user.allergies.length === 0) {
+                    users = users.filter(u => u.name !== username);
+                }
+            }
+
+            localStorage.setItem("users", JSON.stringify(users));
+            loadAllergies();
         }
     </script>
 
