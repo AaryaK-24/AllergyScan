@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Barcode Scanning</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="barstyle.css">
+    <script src="https://unpkg.com/jsqr/dist/jsQR.js"></script>
+</head>
+<body>
+    <div class="main">
+        <h1>Scan Product Barcode</h1>
+        <div id="scanner">
+            <video id="barcodeVideo" width="100%" height="auto" autoplay></video>
+        </div>
+        <button id="startButton">Start Scanning</button>
+        <button id="stopButton" style="display: none;">Stop Scanning</button>
+        <div id="message"></div>
+        <div id="productInfo" style="display: none;">
+            <h2>Product Information</h2>
+            <p id="productDetails"></p>
+        </div>
+        <div class="back-btn">
+            <a href="homepage.html">Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        let videoElement = document.getElementById("barcodeVideo");
+        let startButton = document.getElementById("startButton");
+        let stopButton = document.getElementById("stopButton");
+        let messageElement = document.getElementById("message");
+        let productInfoElement = document.getElementById("productInfo");
+        let productDetailsElement = document.getElementById("productDetails");
+        let scanning = false;
+
+        // Get user media to access the webcam
+        function startScanner() {
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+                .then(function (stream) {
+                    videoElement.srcObject = stream;
+                    scanning = true;
+                    startButton.style.display = "none";
+                    stopButton.style.display = "inline-block";
+                    requestAnimationFrame(scanBarcode);
+                })
+                .catch(function (err) {
+                    messageElement.innerHTML = "❌ Error accessing webcam: " + err.message;
+                });
+        }
+
+        function stopScanner() {
+            let stream = videoElement.srcObject;
+            let tracks = stream.getTracks();
+            tracks.forEach(track => track.stop());
+            videoElement.srcObject = null;
+            scanning = false;
+            startButton.style.display = "inline-block";
+            stopButton.style.display = "none";
+        }
+
+        function scanBarcode() {
+            if (scanning) {
+                let canvas = document.createElement("canvas");
+                canvas.width = videoElement.videoWidth;
+                canvas.height = videoElement.videoHeight;
+                let context = canvas.getContext("2d");
+                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+                let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                let decodedData = jsQR(imageData.data, canvas.width, canvas.height);
+
+                if (decodedData) {
+                    displayProductInfo(decodedData.data);
+                    stopScanner();
+                } else {
+                    requestAnimationFrame(scanBarcode);
+                }
+            }
+        }
+
+        function displayProductInfo(barcodeData) {
+            productInfoElement.style.display = "block";
+            productDetailsElement.textContent = "Barcode Data: " + barcodeData;
+            messageElement.innerHTML = "✅ Product found!";
+        }
+
+        startButton.addEventListener("click", startScanner);
+        stopButton.addEventListener("click", stopScanner);
+    </script>
+</body>
+</html>

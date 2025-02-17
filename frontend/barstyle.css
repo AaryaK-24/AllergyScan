@@ -1,0 +1,119 @@
+/* barstyle.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f6f9; /* Light gray background */
+}
+
+.main {
+    text-align: center;
+    padding: 40px;
+    max-width: 800px;
+    margin: 40px auto;
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    background: url('https://i.pinimg.com/736x/89/96/f9/8996f9dfaa408b580acca914c8630cf2.jpg') center center / cover no-repeat; /* Image background */
+    color: #333;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #3c4e67; /* Slightly dark shade for the title */
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Text shadow for depth */
+}
+
+button {
+    background-color: #ff7a5a; /* Warm peachy-orange color */
+    color: white;
+    padding: 12px 30px;
+    margin: 15px 0;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+button:hover {
+    background-color: #ff5630; /* Darker coral color on hover */
+}
+
+button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+#scanner {
+    position: relative;
+    margin-bottom: 40px;
+    background-color: rgba(255, 255, 255, 0.7); /* Slight background shade for video container */
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+#barcodeVideo {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+#message {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-top: 20px;
+    color: #f2a200; /* Bright yellow-orange color */
+}
+
+#productInfo {
+    margin-top: 30px;
+    font-size: 1.2rem;
+    color: #444;
+}
+
+#productDetails {
+    font-size: 1.1rem;
+    margin-top: 15px;
+    color: #666;
+    word-wrap: break-word;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.back-btn a {
+    display: inline-block;
+    margin-top: 25px;
+    color: #4c8bf5;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.back-btn a:hover {
+    text-decoration: underline;
+    color: #3d7db7;
+}
+
+@media (max-width: 768px) {
+    .main {
+        padding: 20px;
+        margin: 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}

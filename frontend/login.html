@@ -10,14 +10,14 @@
 </head>
 <body>
     <div class="main">
-        <form action="profile.html" method="get">
+        <form id="login-form">
             <h1>Login</h1>
             <div class="textbox">
-                <input type="text" placeholder="UserName" required>
+                <input type="email" id="email" placeholder="UserName" required>
                 <i class='bx bxs-user'></i>
             </div>
             <div class="textbox">
-                <input type="password" placeholder="Password" required>
+                <input type="password" id="password" placeholder="Password" required>
                 <i class='bx bxs-lock-alt'></i>
             </div>
 
@@ -34,5 +34,41 @@
             </div>
         </form>
     </div>
+
+    <script>
+        // Listen for form submission
+        document.getElementById("login-form").addEventListener("submit", async function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            try {
+                // Send POST request to the backend login API
+                const response = await fetch("http://<YOUR_BACKEND_URL>/api/auth/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Login successful, store JWT token in localStorage
+                    localStorage.setItem("auth_token", data.token);
+                    alert("Login successful!");
+                    // Redirect to the homepage after successful login
+                    window.location.href = "homepage.html";  // Redirect to homepage.html
+                } else {
+                    alert("Login failed: " + data.message);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+            }
+        });
+    </script>
 </body>
 </html>
