@@ -54,12 +54,14 @@
         // Display the name from local storage
         window.onload = function() {
             let username = localStorage.getItem("currentUser");
-            if (username) {
-                document.getElementById('profileName').textContent = username;
-            } else {
-                window.location.href = "login.html"; // Redirect if no name is found
+
+            if (!username) {
+                alert("Please log in first."); // Prevent sudden redirect
+                window.location.href = "login.html";
+                return;
             }
 
+            document.getElementById('profileName').textContent = username;
             loadAllergies();
         };
 
