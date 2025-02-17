@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login page</title>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Login</title>
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
@@ -13,60 +11,29 @@
         <form id="login-form">
             <h1>Login</h1>
             <div class="textbox">
-                <input type="email" id="email" placeholder="UserName" required>
-                <i class='bx bxs-user'></i>
+                <input type="email" id="email" placeholder="Email" required>
             </div>
             <div class="textbox">
                 <input type="password" id="password" placeholder="Password" required>
-                <i class='bx bxs-lock-alt'></i>
             </div>
-
-            <div class="checkbox">
-                <label> <input type="checkbox"> Remember Me</label>
-                <a href="#">Forget Password</a>
-            </div>
-
-            <button class="button" type="submit"> Login</button>
-            <div class="register">
-                <p>Don't have an account ?
-                    <a href="#"> Register</a>
-                </p>
-            </div>
+            <button class="button" type="submit">Login</button>
+            <p>Don't have an account? <a href="#">Register</a></p>
         </form>
     </div>
 
     <script>
-        // Listen for form submission
-        document.getElementById("login-form").addEventListener("submit", async function (event) {
-            event.preventDefault(); // Prevent default form submission
+        document.getElementById("login-form").addEventListener("submit", function (event) {
+            event.preventDefault();
 
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
 
-            try {
-                // Send POST request to the backend login API
-                const response = await fetch("http://<YOUR_BACKEND_URL>/api/auth/login", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ email, password })
-                });
-
-                const data = await response.json();
-                
-                if (response.ok) {
-                    // Login successful, store JWT token in localStorage
-                    localStorage.setItem("auth_token", data.token);
-                    alert("Login successful!");
-                    // Redirect to the homepage after successful login
-                    window.location.href = "homepage.html";  // Redirect to homepage.html
-                } else {
-                    alert("Login failed: " + data.message);
-                }
-            } catch (error) {
-                console.error("Error:", error);
-                alert("An error occurred. Please try again.");
+            // Simulating login (Replace this with actual API call)
+            if (email && password) {
+                localStorage.setItem("currentUser", email);
+                window.location.href = "profile.html"; // Redirect to profile
+            } else {
+                alert("Invalid credentials");
             }
         });
     </script>

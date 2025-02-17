@@ -1,0 +1,73 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body style */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: url('https://i.pinimg.com/736x/89/96/f9/8996f9dfaa408b580acca914c8630cf2.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+}
+
+/* Navbar styles */
+.navbar {
+    background: rgba(0, 0, 0, 0.5); /* Transparent black background for the navbar */
+    padding: 10px 20px;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: 600;
+    color: white;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: #3498db; /* Highlight color on hover */
+}
+
+.navbar-nav .nav-item .btn {
+    font-weight: 600;
+}
+
+/* Main content container */
+.container {
+    text-align: center;
+    margin-top: 100px; /* Push the content down */
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+
+/* Button styles */
+.btn-primary {
+    background-color: #3498db;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 30px;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+    transition: background-color 0.3s, transform 0.3s;
+}

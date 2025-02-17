@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Allergy Scanner</title>
+    <!-- Bootstrap 5 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -12,45 +14,67 @@
             background-size: cover;
             filter: brightness(0.8);
         }
+
         .navbar {
             background: rgba(255, 255, 255, 0.9);
         }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: #333;
+        }
+
         .hero {
             text-align: center;
             color: #fff;
             padding: 100px 20px;
             background: rgba(0, 0, 0, 0.5);
         }
+
         .hero h1 {
             font-size: 3em;
             font-weight: bold;
         }
+
+        .hero p {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
         .features {
             padding: 50px 20px;
             background: #ffffff;
             text-align: center;
         }
+
         .features h2 {
             font-size: 1.8em;
+            margin-bottom: 40px;
         }
+
         .feature-box {
             background: rgba(128, 128, 128, 0.2);
             padding: 20px;
             border-radius: 10px;
             margin: 10px;
         }
+
         .feature-icon {
             font-size: 2.5em;
             color: #4CAF50;
         }
+
         .footer {
             background: rgba(255, 255, 255, 0.9);
             text-align: center;
             padding: 20px;
+            margin-top: 40px;
         }
     </style>
 </head>
+
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
             <a class="navbar-brand" href="#">AllergyScanner</a>
@@ -67,11 +91,13 @@
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <div class="hero">
         <h1>Scan. Detect. Stay Safe.</h1>
         <p>Your go-to app for identifying allergens in food products.</p>
     </div>
 
+    <!-- Features Section -->
     <section class="features">
         <div class="container">
             <h2>How It Works</h2>
@@ -101,10 +127,13 @@
         </div>
     </section>
 
+    <!-- Footer -->
     <footer class="footer">
         <p>© 2025 AllergyScanner. All rights reserved.</p>
     </footer>
 
+    <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
