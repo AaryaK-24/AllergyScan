@@ -1,53 +1,37 @@
 const express = require("express");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const path = require("path");
 
-const router = express.Router();
+// Load environment variables explicitly
+dotenv.config({ path: path.resolve(__dirname, ".env") });
 
-// Signup Route
-router.post("/signup", async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        
-        // Check if user already exists
-        let user = await User.findOne({ email });
-        if (user) return res.status(400).json({ message: "User already exists" });
+const app = express();
 
-        // Hash the password
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
+// Middleware
+app.use(express.json());  // Allows JSON body parsing
+app.use(cors());          // Enables Cross-Origin Resource Sharing
 
-        // Create new user
-        user = new User({ email, password: hashedPassword });
-        await user.save();
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log("✅ Connected to MongoDB..."))
+    .catch(err => {
+        console.error("❌ MongoDB connection error:", err);
+        process.exit(1);
+    });
 
-        res.status(201).json({ message: "User registered successfully" });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+// Import authentication routes
+const authRoutes = require("./routes/authRoutes");
+app.use("/api/auth", authRoutes);  // Authentication routes
+
+// Test route
+app.get("/", (req, res) => {
+    res.send("✅ Server is running!");
 });
 
-// Login Route
-router.post("/login", async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        
-        // Find user by email
-        const user = await User.findOne({ email });
-        if (!user) return res.status(400).json({ message: "Invalid email or password" });
-
-        // Compare passwords
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ message: "Invalid email or password" });
-
-        // Generate JWT Token
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-
-        res.json({ token, user: { id: user._id, email: user.email, allergens: user.allergens } });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`🚀 Server is running on port ${PORT}...`);
 });
-
-module.exports = router;
