@@ -7,7 +7,7 @@ const firebaseConfig = {
     apiKey: "AIzaSyCnuCovuylWwBrUuR-I2WjK1LOWAPajW8w",
     authDomain: "allergyscanner-61f43.firebaseapp.com",
     projectId: "allergyscanner-61f43",
-    storageBucket: "allergyscanner-61f43.appspot.com",  // Fixed incorrect storageBucket
+    storageBucket: "allergyscanner-61f43.appspot.com",  
     messagingSenderId: "537468369556",
     appId: "1:537468369556:web:3f19921bdb06f6e8cad281"
 };

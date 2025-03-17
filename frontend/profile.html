@@ -5,9 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Allergy Scanner - Profile</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
+    
     <style>
-        /* Custom background for navbar */
         .navbar {
             background-image: url('https://i.pinimg.com/736x/89/96/f9/8996f9dfaa408b580acca914c8630cf2.jpg');
             background-size: cover;
@@ -16,27 +21,24 @@
     </style>
 </head>
 <body>
-
-    <!-- Navbar -->
+    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="homepage.html">Allergy Scanner</a> <!-- Home link updated -->
+            <a class="navbar-brand" href="homepage.html">Allergy Scanner</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="homepage.html">Home</a></li> <!-- Home link updated -->
+                    <li class="nav-item"><a class="nav-link" href="homepage.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link active" href="profile.html">Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="allergies.html">Allergy List</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-
+    
     <!-- Profile Content -->
     <div class="container mt-5">
         <h2>Profile of <span id="profileName"></span></h2>
         <p>Manage your allergic ingredients here.</p>
-
-        <!-- Form to Add Allergies -->
         <form id="allergy-form">
             <div class="mb-3">
                 <label for="allergy" class="form-label">Allergic Ingredients</label>
@@ -44,86 +46,122 @@
             </div>
             <button type="button" class="btn btn-success" onclick="saveAllergy()">Save Allergy</button>
         </form>
-
-        <!-- Allergy List -->
         <h3 class="mt-4">Your Allergies</h3>
         <ul class="list-group" id="allergy-list"></ul>
     </div>
 
+    <!-- Firebase Configuration and Script -->
     <script>
-        // Display the name from local storage
-        window.onload = function() {
-            let username = localStorage.getItem("currentUser");
-
-            if (!username) {
-                alert("Please log in first."); // Prevent sudden redirect
-                window.location.href = "login.html";
-                return;
-            }
-
-            document.getElementById('profileName').textContent = username;
-            loadAllergies();
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCnuCovuylWwBrUuR-I2WjK1LOWAPajW8w",
+            authDomain: "allergyscanner-61f43.firebaseapp.com",
+            projectId: "allergyscanner-61f43",
+            storageBucket: "allergyscanner-61f43.appspot.com",
+            messagingSenderId: "537468369556",
+            appId: "1:537468369556:web:3f19921bdb06f6e8cad281"
         };
 
-        // Save allergy for the user
-        function saveAllergy() {
-            let allergy = document.getElementById('allergy').value;
-            let username = localStorage.getItem("currentUser");
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
 
-            if (allergy && username) {
-                let users = JSON.parse(localStorage.getItem("users")) || [];
-                let user = users.find(user => user.name === username);
-
-                if (user) {
-                    user.allergies.push(allergy);
+        // Wait for the page to load before running scripts
+        window.onload = function () {
+            auth.onAuthStateChanged(user => {
+                if (!user) {
+                    alert("Please log in first.");
+                    window.location.href = "login.html";
                 } else {
-                    users.push({ name: username, allergies: [allergy] });
+                    document.getElementById('profileName').textContent = user.email;
+                    ensureUserDocument(user.uid);
                 }
+            });
 
-                localStorage.setItem("users", JSON.stringify(users));
-                loadAllergies();
-            } else {
-                alert("Please enter an allergy.");
-            }
-        }
-
-        // Load and display allergies
-        function loadAllergies() {
-            let username = localStorage.getItem("currentUser");
-            let users = JSON.parse(localStorage.getItem("users")) || [];
-            let user = users.find(user => user.name === username);
-            let allergyList = document.getElementById("allergy-list");
-
-            allergyList.innerHTML = "";
-
-            if (user && user.allergies.length > 0) {
-                user.allergies.forEach(allergy => {
-                    let listItem = document.createElement("li");
-                    listItem.className = "list-group-item d-flex justify-content-between align-items-center";
-                    listItem.innerHTML = allergy + `<button class="btn btn-danger btn-sm" onclick="removeAllergy('${allergy}')">Remove</button>`;
-                    allergyList.appendChild(listItem);
+            function ensureUserDocument(userId) {
+                const userRef = db.collection("users").doc(userId);
+                userRef.get().then(doc => {
+                    if (!doc.exists) {
+                        return userRef.set({ allergies: [] });
+                    }
+                }).then(() => {
+                    loadAllergies(userId);
+                }).catch(error => {
+                    console.error("Error ensuring user document:", error);
+                    alert("Error checking user data.");
                 });
             }
-        }
 
-        // Remove an allergy
-        function removeAllergy(allergy) {
-            let username = localStorage.getItem("currentUser");
-            let users = JSON.parse(localStorage.getItem("users")) || [];
-            let user = users.find(user => user.name === username);
+            // Function to Save Allergy
+            window.saveAllergy = function () {
+                const allergy = document.getElementById('allergy').value.trim();
+                const user = auth.currentUser;
 
-            if (user) {
-                user.allergies = user.allergies.filter(a => a !== allergy);
-                if (user.allergies.length === 0) {
-                    users = users.filter(u => u.name !== username);
+                if (!allergy) {
+                    alert("Please enter an allergy.");
+                    return;
                 }
+
+                if (user) {
+                    const userRef = db.collection("users").doc(user.uid);
+                    userRef.update({
+                        allergies: firebase.firestore.FieldValue.arrayUnion(allergy)
+                    }).then(() => {
+                        document.getElementById('allergy').value = "";
+                        loadAllergies(user.uid);
+                    }).catch(error => {
+                        console.error("Error saving allergy:", error);
+                        alert("Error saving allergy. Please try again.");
+                    });
+                } else {
+                    alert("No user logged in.");
+                }
+            };
+
+            // Function to Load Allergies from Firestore
+            function loadAllergies(userId) {
+                const allergyList = document.getElementById("allergy-list");
+                allergyList.innerHTML = "";
+                db.collection("users").doc(userId).get().then(doc => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        if (data.allergies && data.allergies.length > 0) {
+                            data.allergies.forEach(allergy => {
+                                let listItem = document.createElement("li");
+                                listItem.className = "list-group-item d-flex justify-content-between align-items-center";
+                                listItem.innerHTML = `${allergy} <button class="btn btn-danger btn-sm" onclick="removeAllergy('${allergy}')">Remove</button>`;
+                                allergyList.appendChild(listItem);
+                            });
+                        } else {
+                            allergyList.innerHTML = "<li class='list-group-item'>No allergies saved.</li>";
+                        }
+                    }
+                }).catch(error => {
+                    console.error("Error loading allergies:", error);
+                    alert("Error loading allergies. Please try again.");
+                });
             }
 
-            localStorage.setItem("users", JSON.stringify(users));
-            loadAllergies();
-        }
+            // Function to Remove an Allergy
+            window.removeAllergy = function (allergy) {
+                const user = auth.currentUser;
+                if (user) {
+                    const userRef = db.collection("users").doc(user.uid);
+                    userRef.update({
+                        allergies: firebase.firestore.FieldValue.arrayRemove(allergy)
+                    }).then(() => {
+                        loadAllergies(user.uid);
+                    }).catch(error => {
+                        console.error("Error removing allergy:", error);
+                        alert("Error removing allergy. Please try again.");
+                    });
+                }
+            };
+        };
     </script>
 
+    <!-- Bootstrap Script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
